@@ -10,12 +10,23 @@ export default function Popular() {
   }, []);
 
   const getPopular = async () => {
-    const api = await fetch(
-      `https://api.spoonacular.com/recipes/random?apiKey=ebe47d43aae249dab55959b7d0a2eb06&number=9`
-    );
-    const data = await api.json();
-    console.log(data);
-    setPopular(data.recipes);
+
+    // To avoid multiple fetching api if it alearedy fetched.
+    const check = localStorage.getItem('popular');
+
+    if (check){
+      setPopular(JSON.parse(check));
+    }else{
+      const api = await fetch(
+        `https://api.spoonacular.com/recipes/random?apiKey=ebe47d43aae249dab55959b7d0a2eb06&number=9`
+      );
+      const data = await api.json();
+      localStorage.setItem('popular', JSON.stringify(data.recipes));
+      console.log(data);
+      setPopular(data.recipes);
+      
+    }
+
   };
 
   return (
@@ -24,11 +35,11 @@ export default function Popular() {
         <h3>Popular Picks</h3>
         <Splide options={{
           perPage:4,arrows:false,
-          pagination:false, drag:'free',gap:"3rem"
+          pagination:false, drag:'free',gap:"2rem"
         }}>
           {popular.map((recipe) => {
             return (
-              <SplideSlide>
+              <SplideSlide className="div1" >
                 <div className="popCard" key={recipe.id} >
                   <p className="popCardP" >{recipe.title}</p>
                   <img className="popCardImg" src={recipe.image} alt="" />
