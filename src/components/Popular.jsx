@@ -31,8 +31,8 @@ export default function Popular() {
 
   return (
     <>
-      <div className="popWrapper" >
-        <h3>Popular Picks</h3>
+      <div style={{'marginTop':-90}} className="popWrapper" >
+        <h3  >Popular Picks</h3>
         <Splide options={{
           perPage:4,arrows:false,
           pagination:false, drag:'free',gap:"2rem"
